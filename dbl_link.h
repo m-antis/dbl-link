@@ -41,5 +41,5 @@ class DoublyLinkedList {
         type front();
         type back();
         void insertLast(const type &datum);
-
+        
 };
