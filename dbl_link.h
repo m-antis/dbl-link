@@ -17,7 +17,7 @@ struct Node {
     type datum;
     Node<type> *prev;
     Node<type> *next;
-}
+};
 
 
 template <class type>
@@ -34,5 +34,6 @@ class DoublyLinkedList {
         DoublyLinkedList(const Node<type> &copy);
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
+        ~DoublyLinkedList();
 
-}
+};
