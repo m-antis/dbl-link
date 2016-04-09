@@ -34,6 +34,5 @@ class DoublyLinkedList {
         DoublyLinkedList(const Node<type> &copy);
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
-        ~DoublyLinkedList();
 
 };
