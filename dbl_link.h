@@ -27,14 +27,19 @@ class DoublyLinkedList {
         friend istream &operator>>(istream &, Node<type> &);
     protected:
         int length;
-        Node<type> first;
-        Node<type> last;
+        Node<type> *first;
+        Node<type> *last;
     public:
         DoublyLinkedList();
         DoublyLinkedList(const Node<type> &copy);
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
 
-        void testMethod();
+        void initializeList();
+        int length();
+        void print();
+        type front();
+        type back();
+        void insertLast(const type &datum);
 
 };
