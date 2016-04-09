@@ -35,4 +35,6 @@ class DoublyLinkedList {
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
 
+        void testMethod();
+
 };
