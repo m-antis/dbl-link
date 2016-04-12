@@ -34,15 +34,15 @@ class DoublyLinkedList {
         DoublyLinkedList(const Node<type> &copy);
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
-
         void initializeList();
         void printList();
         type getFirstNode() const;
         type getLastNode() const;
+
         void prepend(const type &);
         void append(const type &);
         void destroyList();
-        void destryNode(const type &);
+        void destroyNode(const type &);
         bool isEmpty() const;
         int length() const;
         void printList() const;
