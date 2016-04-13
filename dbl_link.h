@@ -8,6 +8,8 @@
 */
 
 #include <iostream>
+using namespace std;
+
 #ifndef DBL_LINK
 #define DBL_LINK
 
@@ -31,11 +33,10 @@ class DoublyLinkedList {
         Node<type> *last;
     public:
         DoublyLinkedList();
-        DoublyLinkedList(const Node<type> &copy);
+        DoublyLinkedList(const DoublyLinkedList &copy);
         ~DoublyLinkedList();
         DoublyLinkedList operator=(const Node<type> &);
         void initializeList();
-        void printList();
         type getFirstNode() const;
         type getLastNode() const;
 
@@ -44,6 +45,6 @@ class DoublyLinkedList {
         void destroyList();
         void destroyNode(const type &);
         bool isEmpty() const;
-        int length() const;
+        int getLength() const;
         void printList() const;
 };
