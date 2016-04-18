@@ -25,6 +25,7 @@ struct Node {
 template <class type>
 class DoublyLinkedList {
     private:
+        //Do we need these guys?
         friend ostream &operator<<(ostream &, const Node<type> &);
         friend istream &operator>>(istream &, Node<type> &);
     protected:
@@ -35,10 +36,11 @@ class DoublyLinkedList {
         DoublyLinkedList();
         DoublyLinkedList(const DoublyLinkedList &copy);
         ~DoublyLinkedList();
-        DoublyLinkedList operator=(const Node<type> &);
-        void initializeList();
-        type getFirstNode() const;
-        type getLastNode() const;
+        DoublyLinkedList& operator=(const DoublyLinkedList &);
+        void initializeList();   //I don't think we need this either.  Malik just uses this to set first = last = NULL and length = 0
+        type getFirstItem() const;
+        type getLastItem() const;
+        type getItemAt(const int index);
 
         void prepend(const type &);
         void append(const type &);
@@ -46,5 +48,5 @@ class DoublyLinkedList {
         void destroyNode(const type &);
         bool isEmpty() const;
         int getLength() const;
-        void printList() const;
+        void printList();
 };
