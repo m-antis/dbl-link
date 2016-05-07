@@ -7,12 +7,11 @@
 *
 */
 
-#include <iostream>
-using namespace std;
-
 #ifndef DBL_LINK
 #define DBL_LINK
 
+#include <iostream>
+  using namespace std;
 
 template <class type>
 struct Node {
@@ -25,18 +24,16 @@ struct Node {
 template <class type>
 class DoublyLinkedList {
     private:
-        //Do we need these guys?
-        friend ostream &operator<<(ostream &, const Node<type> &);
-        friend istream &operator>>(istream &, Node<type> &);
-    protected:
         int length;
         Node<type> *first;
         Node<type> *last;
+
+        Node<type> *iterator;
     public:
         DoublyLinkedList();
         DoublyLinkedList(const DoublyLinkedList &copy);
         ~DoublyLinkedList();
-        DoublyLinkedList& operator=(const DoublyLinkedList &);
+        void operator=(const DoublyLinkedList &);
         void initializeList();   //I don't think we need this either.  Malik just uses this to set first = last = NULL and length = 0
         type getFirstItem() const;
         type getLastItem() const;
@@ -49,4 +46,13 @@ class DoublyLinkedList {
         bool isEmpty() const;
         int getLength() const;
         void printList();
+
+        void moveFirst();
+        void moveLast();
+        void moveNext();
+        void movePrev();
+        bool EOF();
+        void iterData(type &);
 };
+
+#endif //DBL_LINK
