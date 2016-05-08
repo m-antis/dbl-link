@@ -1,20 +1,19 @@
 #include "dbl_link.h"
 
 template <class type>
-DoublyLinkedList::DoublyLinkedList() {
+DoublyLinkedList<type>::DoublyLinkedList() {
     length = 0;
-    first = last = NULL;
+    first = last = iterator = NULL;
 }
 
 template <class type>
-DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList &copy){
+DoublyLinkedList<type>::DoublyLinkedList(const DoublyLinkedList &copy){
     if (!copy.isEmpty()){
         length = 1;
         first = last = new Node<type>;
         first->next = first->prev = NULL;
         Node<type> *p = NULL;
         p = copy.first;
-
         do {
             last->datum = p->datum;
             if (p->next) {
@@ -30,6 +29,7 @@ DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList &copy){
         first = last = NULL;
         length = 0;
     }
+    iterator = NULL;
 }
 
 template <class type>
@@ -38,7 +38,7 @@ DoublyLinkedList<type>::~DoublyLinkedList(){
 }
 
 template <class type>
-DoublyLinkedList& DoublyLinkedList<type>::operator=(const DoublyLinkedList<type> &original) {
+void DoublyLinkedList<type>::operator=(const DoublyLinkedList<type> &original) {
     if (this != &original) {
         destroyList();
 
@@ -50,49 +50,25 @@ DoublyLinkedList& DoublyLinkedList<type>::operator=(const DoublyLinkedList<type>
             p = p->next;
         }
     }
-    return *this;
-}
-
-template <class type>
-type DoublyLinkedList<type>::getFirstItem() const {
-    return first->datum;
-}
-
-template <class type>
-type DoublyLinkedList<type>::getLastItem() const {
-    return last->datum;
-}
-
-template <class type>
-type DoublyLinkedList<type>::getItemAt(const int index) {
-    if (index<length){
-        Node<type> *p = NULL;
-        p = first;
-        for (int i = 0; i < index; ++i) {
-            p = p->next;
-        }
-        return p->datum;
-    }    else {
-        return NULL;
-    }
+    iterator = NULL;
 }
 
 template <class type>
 void DoublyLinkedList<type>::prepend(const type &item) {
     Node<type> *p = NULL;
-    p = new Node;
+    p = new Node<type>;
     p->datum = item;
+    p->next = p->prev = NULL;
 
     if(!isEmpty()) {
         first->prev = p;
         p->next = first;
         first = p;
         length++;
-        cout << "\nNode successfully prepended"; // for testing purposes
+        cout << "\nNode successfully prepended\n"; // for testing purposes
     }
     else {
         first = last = p;
-        last->next = NULL;
         length++;
     }
 }
@@ -100,19 +76,19 @@ void DoublyLinkedList<type>::prepend(const type &item) {
 template <class type>
 void DoublyLinkedList<type>::append(const type &item) {
     Node<type> *p = NULL;
-    p = new Node;
+    p = new Node<type>;
     p->datum = item;
+    p->next = p->prev = NULL;
 
     if(!isEmpty()) {
         p->prev = last;
-        p->next = NULL;
+        last->next = p;
         last = p;
         length++;
-        cout << "\nNode successfully appended"; // for testing purposes
+        cout << "\nNode successfully appended\n"; // for testing purposes
     }
     else {
         first = last = p;
-        last->next = NULL;
         length++;
     }
 }
@@ -122,13 +98,13 @@ void DoublyLinkedList<type>::printList() {
     Node<type> *p;
     p = first;
     if(!isEmpty()) {
-        while(p) {
+        while(p != NULL) {
             cout << p->datum << " ";
-            p = p->next;
+            p = p-> next;
         }
     }
     else {
-        cout << "\nList is empty. Nothing to print.";
+        cout << "\nList is empty. Nothing to print.\n";
     }
 }
 
@@ -156,18 +132,39 @@ void DoublyLinkedList<type>::destroyList() {
         last = NULL;
         length = 0;
     }
+    delete iterator;
 }
 
-// template<class type>
-// void DoublyLinkedList<type>::destroyNode(const type &item) {
-//
-//     Node<type> *p;
-//     p = first;
-//
-//     while(p) {
-//         if(p->datum == item) {
-//
-//         }
-//         p = p->next;
-//     }
-// }
+template <class type>
+void DoublyLinkedList<type>::moveFirst() {
+    iterator = first;
+}
+
+template <class type>
+void DoublyLinkedList<type>::moveLast() {
+    iterator = last;
+}
+
+template <class type>
+void DoublyLinkedList<type>::moveNext() {
+    if (!EOF())
+        iterator = iterator->next;
+}
+
+template <class type>
+void DoublyLinkedList<type>::movePrev() {
+    if (!EOF())
+        iterator = iterator->prev;
+}
+
+template <class type>
+bool DoublyLinkedList<type>::EOF() {
+    return iterator == NULL;
+}
+
+template <class type>
+void DoublyLinkedList<type>::iterData(type &data){
+    if (!EOF()){
+        data = iterator->datum;
+    }
+}
