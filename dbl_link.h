@@ -35,17 +35,14 @@ class DoublyLinkedList {
         ~DoublyLinkedList();
         void operator=(const DoublyLinkedList &);
         void initializeList();   //I don't think we need this either.  Malik just uses this to set first = last = NULL and length = 0
-        type getFirstItem() const;
-        type getLastItem() const;
-        type getItemAt(const int index);
 
         void prepend(const type &);
         void append(const type &);
         void destroyList();
-        void destroyNode(const type &);
+        void destroyFirstNode();
         bool isEmpty() const;
         int getLength() const;
-        void printList();
+        void printList(string=" ");
 
         void moveFirst();
         void moveLast();

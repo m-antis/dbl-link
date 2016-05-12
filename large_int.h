@@ -1,26 +1,39 @@
-#include "dbl_link.h"
-#include "dbl_link.cpp"
+
 
 #ifndef LARGE_INT
 #define LARGE_INT
 
-template <class type>
+#include "dbl_link.cpp"
+
 class LargeInt {
+    friend ostream& operator<<(ostream &, LargeInt);
+    friend istream& operator>>(istream &, LargeInt &);
+
+    static const int POSITIVE=1;
+    static const int NEGATIVE=0;
 
     private:
-        DoublyLinkedList large_int;
-        friend ostream &operator<<(ostream &, const int &);
-        friend istream &operator>>(istream &, const int &);
+        DoublyLinkedList<int> large_int;
+        int sign;
+
+        bool isDigit(char);
+        LargeInt add(LargeInt &);
+        LargeInt subtract(LargeInt &);
+
+        void removeLeadingZeros();
     public:
         LargeInt();
-        LargeInt& operator+(const LargeInt&);
-        LargeInt& operator-(const LargeInt&);
-        LargeInt& operator*(const LargeInt&);
-        LargeInt& operator/(const LargeInt&);
-        LargeInt& operator%(const LargeInt&);
-        bool operator==(const LargeInt&);
-        bool operator<(const LargeInt&);
-        bool operator>(const LargeInt&);
-        bool operator<=(const LargeInt&);
-        bool operator>=(const LargeInt&);
+
+        LargeInt operator+(LargeInt&);
+        LargeInt operator-(LargeInt&);
+        LargeInt operator*(LargeInt&);
+        LargeInt operator/(LargeInt&);
+        LargeInt operator%(LargeInt&);
+        bool operator==(LargeInt&);
+        bool operator<(LargeInt&);
+        bool operator>(LargeInt&);
+        bool operator<=(LargeInt&);
+        bool operator>=(LargeInt&);
 };
+
+#endif
