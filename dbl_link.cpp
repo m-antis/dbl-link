@@ -45,7 +45,7 @@ void DoublyLinkedList<type>::operator=(const DoublyLinkedList<type> &original) {
         Node<type> *p = NULL;
         p = original.first;
 
-        while (p) {
+        while (p != NULL) {
             append(p->datum);
             p = p->next;
         }
@@ -65,7 +65,7 @@ void DoublyLinkedList<type>::prepend(const type &item) {
         p->next = first;
         first = p;
         length++;
-        cout << "\nNode successfully prepended\n"; // for testing purposes
+        //cout << "\nNode successfully prepended\n"; // for testing purposes
     }
     else {
         first = last = p;
@@ -85,7 +85,7 @@ void DoublyLinkedList<type>::append(const type &item) {
         last->next = p;
         last = p;
         length++;
-        cout << "\nNode successfully appended\n"; // for testing purposes
+        //cout << "\nNode successfully appended\n"; // for testing purposes
     }
     else {
         first = last = p;
@@ -94,12 +94,12 @@ void DoublyLinkedList<type>::append(const type &item) {
 }
 
 template <class type>
-void DoublyLinkedList<type>::printList() {
+void DoublyLinkedList<type>::printList(string delimiter) {
     Node<type> *p;
     p = first;
     if(!isEmpty()) {
         while(p != NULL) {
-            cout << p->datum << " ";
+            cout << p->datum << delimiter;
             p = p-> next;
         }
     }
@@ -129,10 +129,24 @@ void DoublyLinkedList<type>::destroyList() {
             first = first->next;
             delete p;
         }
-        last = NULL;
+        first = last = iterator = NULL;
         length = 0;
+
     }
-    delete iterator;
+}
+
+template <class type>
+void DoublyLinkedList<type>::destroyFirstNode() {
+    if (!isEmpty()){
+        Node<type> *p = NULL;
+        p = first;
+        first = first->next;
+        if (p == last) {
+            last = first;
+        }
+        length--;
+        delete p;
+    }
 }
 
 template <class type>
