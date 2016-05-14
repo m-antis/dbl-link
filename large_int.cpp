@@ -120,31 +120,31 @@ LargeInt LargeInt::add(LargeInt &li) {
 LargeInt LargeInt::subtract(LargeInt &li) {
     LargeInt tempLi;
 
-    int sign1, sign2;
-    sign1 = sign;
-    sign2 = li.sign;
-    sign = li.sign = POSITIVE;
+    if (!((sign && li.sign) && (*this>=li))) {
+        int sign1, sign2;
+        sign1 = sign;
+        sign2 = li.sign;
+        sign = li.sign = POSITIVE;
 
-    if (sign1 != sign2){
-        tempLi = add(li);
-        tempLi.sign = sign1;
+        if (sign1 != sign2) {
+            tempLi = add(li);
+            tempLi.sign = sign1;
+        }
+
+        if (li > *this) {
+            tempLi = li.subtract(*this);
+            tempLi.sign = !sign1;
+        }
+
+        if (!sign1 && !sign2) {
+            tempLi = subtract(li);
+            tempLi.sign = NEGATIVE;
+        }
+
+        sign = sign1;
+        li.sign = sign2;
         return tempLi;
     }
-
-    if (li>*this){
-        tempLi = li.subtract(*this);
-        tempLi.sign = !sign1;
-        return tempLi;
-    }
-
-    if (!sign1 && !sign2){
-        tempLi = subtract(li);
-        tempLi.sign = NEGATIVE;
-        return tempLi;
-    }
-
-    sign = sign1;
-    li.sign = sign2;
 
     int v1, v2, sub;
     int mLength;
@@ -178,6 +178,70 @@ LargeInt LargeInt::subtract(LargeInt &li) {
     return tempLi;
 }
 
+//This multiply functions works exactly as you would multiply two numbers on paper.
+LargeInt LargeInt::multiply(LargeInt &li){
+    LargeInt tempLi;
+
+    //sets the larger number to the first LargeInt (this)
+    if (li > *this){
+        tempLi = li.multiply(*this);
+        return tempLi;
+    }
+
+    int length = 0;
+    length = li.large_int.getLength();
+
+    //Create an array of LargeInts based on the size of the smaller LargeInt
+    LargeInt *result;
+    result = new LargeInt[length];
+
+    int v1, v2, carry;
+
+
+    li.large_int.moveLast();
+    //Iterated through the loop for every value of Li
+    for (int i = 0; i < length; ++i) {
+        large_int.moveLast();
+        //v1 represents the digits in *this
+        //v2 represents the digits in li
+        v1 = v2 = 0;
+
+        //set the value of v2 from li
+        li.large_int.iterData(v2);
+        carry = 0;
+
+        //Loop to multiply v2 by every number in *this
+        while(!large_int.EOF()){
+            v1 = 0;
+            large_int.iterData(v1); //Set v1 to digit from *this
+            result[i].large_int.prepend((v1*v2+carry)%10); //prepend only the last digit (9*9: value = 1)
+            carry = (v1*v2+carry)/10; //set carry to the rest of the number (9*9: value = 8)
+            large_int.movePrev();  //iterate to the next digit of *this
+        }
+        if (carry != 0)
+            result[i].large_int.prepend(carry); //If there is a value still in carry, prepend it to the result
+        //Add the zeros to the back of the number
+        for (int j = 0; j < i; ++j) {
+            result[i].large_int.append(0);
+        }
+
+        li.large_int.movePrev(); //iterate to the next digit of li
+
+        //if this is the first result, tempLi = result, else add the result to tempLi
+        if (i == 0) {
+            tempLi = result[0];
+        } else{
+            tempLi = tempLi + result[i];
+        }
+        //Do this again for every digit in li
+    }
+    delete [] result;
+
+    //Set the sign of tempLi.  If the signs are different, the result will be negative
+    tempLi.sign = sign == li.sign ? POSITIVE : NEGATIVE;
+    return tempLi;
+}
+
 void LargeInt::removeLeadingZeros() {
     int i = 0;
 
@@ -195,6 +259,18 @@ LargeInt LargeInt::operator+(LargeInt &li) {
 
 LargeInt LargeInt::operator-(LargeInt &li) {
     return subtract(li);
+}
+
+LargeInt LargeInt::operator*(LargeInt &li) {
+    return multiply(li);
+}
+
+LargeInt LargeInt::operator/(LargeInt &) {
+
+}
+
+LargeInt LargeInt::operator%(LargeInt &) {
+
 }
 
 bool LargeInt::operator==(LargeInt &li) {
