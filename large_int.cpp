@@ -242,6 +242,30 @@ LargeInt LargeInt::multiply(LargeInt &li){
     return tempLi;
 }
 
+LargeInt LargeInt::divide(LargeInt &li, bool mod) {
+    LargeInt quotient;
+    LargeInt divisor;
+    LargeInt modulus;
+    LargeInt increment;
+
+    increment.large_int.append(1);
+    quotient.large_int.append(0);
+
+    modulus = *this;
+    divisor = li;
+
+    modulus.sign = divisor.sign = POSITIVE;
+
+    while(modulus>=divisor){
+        quotient = quotient+increment;
+        modulus = modulus-divisor;
+    }
+
+    quotient.sign = sign != li.sign ? sign : POSITIVE;
+
+    return mod ? modulus : quotient;
+}
+
 void LargeInt::removeLeadingZeros() {
     int i = 0;
 
@@ -265,12 +289,12 @@ LargeInt LargeInt::operator*(LargeInt &li) {
     return multiply(li);
 }
 
-LargeInt LargeInt::operator/(LargeInt &) {
-
+LargeInt LargeInt::operator/(LargeInt &li) {
+    return divide(li,false);
 }
 
-LargeInt LargeInt::operator%(LargeInt &) {
-
+LargeInt LargeInt::operator%(LargeInt &li) {
+    return divide(li, true);
 }
 
 bool LargeInt::operator==(LargeInt &li) {
@@ -357,5 +381,3 @@ bool LargeInt::operator>=(LargeInt &li) {
 LargeInt::LargeInt() {
     sign = POSITIVE;
 }
-
-
