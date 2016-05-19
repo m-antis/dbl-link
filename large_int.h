@@ -19,6 +19,8 @@ class LargeInt {
         bool isDigit(char);
         LargeInt add(LargeInt &);
         LargeInt subtract(LargeInt &);
+        LargeInt multiply(LargeInt &);
+        LargeInt divide(LargeInt &, bool mod=false);
 
         void removeLeadingZeros();
     public:

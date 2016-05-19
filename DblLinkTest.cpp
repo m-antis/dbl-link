@@ -16,6 +16,15 @@ int main(){
 
     cout<<"+: "<<li1+li2;
     cout<<"-: "<<li1-li2;
+    cout<<"*: "<<li1*li2;
+    cout<<"/: "<<li1/li2;
+    cout<<"%: "<<li1%li2<<endl;
+
+    cout<<"==: "<<(li1 == li2)<<endl;
+    cout<<">: "<<(li1 > li2)<<endl;
+    cout<<">=: "<<(li1 >= li2)<<endl;
+    cout<<"<: "<<(li1 < li2)<<endl;
+    cout<<"<=: "<<(li1 <= li2)<<endl;
 
     return 0;
 };
